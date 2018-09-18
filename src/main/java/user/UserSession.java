@@ -1,6 +1,6 @@
 package user;
 
-import org.craftedsw.tripservicekata.exception.CollaboratorCallException;
+import exception.CollaboratorCallException;
 
 public class UserSession {
 
