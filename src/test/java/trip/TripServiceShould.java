@@ -13,6 +13,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 class TripServiceShould {
 
     private static final Trip TO_ITALY = new Trip();
+    private static final Trip TO_LONDON = new Trip();
+
     private static final User UNUSED_USER = null;
     private static final User GUEST = null;
     private static final User REGISTRED_USER = new User();
@@ -46,10 +48,29 @@ class TripServiceShould {
        assertThat(friendTrips).isEmpty();
     }
 
+    @Test
+    void return_friend_trips_when_users_are_friends() {
+        loggedUser = REGISTRED_USER;
+
+        User friend = new User();
+        friend.addFriend(loggedUser);
+        friend.addTrip(TO_ITALY);
+        friend.addTrip(TO_LONDON);
+
+        List<Trip> friendTrips = tripService.getTripsByUser(friend);
+
+        assertThat(friendTrips).contains(TO_ITALY, TO_LONDON);
+    }
+
     private class TestableTripService extends TripService {
         @Override
         User getLoggedUser() {
             return loggedUser;
+        }
+
+        @Override
+        List<Trip> tripsBy(User user) {
+            return user.trips();
         }
     }
 }
