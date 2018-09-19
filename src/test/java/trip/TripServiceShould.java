@@ -10,6 +10,9 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class TripServiceShould {
 
+    private final User UNUSED_USER = null;
+    private final User GUEST = null;
+
     private TripService tripService;
 
     @BeforeEach
@@ -20,14 +23,14 @@ class TripServiceShould {
     @Test
     void throw_an_exception_when_user_not_logged_in() {
 
-        assertThatThrownBy(() -> tripService.getTripsByUser(null))
+        assertThatThrownBy(() -> tripService.getTripsByUser(UNUSED_USER))
                 .isInstanceOf(UserNotLoggedInException.class);
     }
 
     private class TestableTripService extends TripService {
         @Override
         User getLoggedUser() {
-            return null;
+            return GUEST;
         }
     }
 }
