@@ -4,6 +4,7 @@ import trip.Trip;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class User {
 
@@ -26,4 +27,7 @@ public class User {
 		return trips;
 	}
 
+	public boolean isFriendsWith(User anotherUser) {
+		return friends.contains(anotherUser);
+	}
 }

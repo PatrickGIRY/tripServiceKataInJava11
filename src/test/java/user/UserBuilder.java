@@ -1,31 +1,31 @@
-package trip;
+package user;
 
-import user.User;
+import trip.Trip;
 
 import java.util.stream.Stream;
 
-class UserBuilder {
+public class UserBuilder {
     private User[] friends = new User[] {};
     private Trip[] trips = new Trip[] {};
 
-    static UserBuilder aUser() {
+    public static UserBuilder aUser() {
         return new UserBuilder();
     }
 
     private UserBuilder() {
     }
 
-    UserBuilder friendsWith(User... friends) {
+    public UserBuilder friendsWith(User... friends) {
         this.friends = friends;
         return this;
     }
 
-    UserBuilder withTrips(Trip... trips) {
+    public UserBuilder withTrips(Trip... trips) {
         this.trips = trips;
         return this;
     }
 
-    User build() {
+    public User build() {
         var user = new User();
         addTripsTo(user);
         addFriendsTo(user);
