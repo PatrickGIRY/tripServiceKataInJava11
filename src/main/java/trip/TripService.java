@@ -17,8 +17,12 @@ public class TripService {
 
         return user.isFriendsWith(loggedUser)
                 ? tripsBy(user)
-                : new ArrayList<>();
+                : noTrip();
 
+    }
+
+    private List<Trip> noTrip() {
+        return List.of();
     }
 
     List<Trip> tripsBy(User user) {
