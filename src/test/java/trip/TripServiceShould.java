@@ -26,6 +26,7 @@ class TripServiceShould {
     @BeforeEach
     void setUp() {
         tripService = new TestableTripService();
+        loggedUser = REGISTRED_USER;
     }
 
     @Test
@@ -37,21 +38,19 @@ class TripServiceShould {
 
     @Test
     void not_return_any_trips_when_users_are_not_friends() {
-       loggedUser = REGISTRED_USER;
 
-       User friend = new User();
-       friend.addFriend(ANOTHER_USER);
-       friend.addTrip(TO_ITALY);
+        User friend = new User();
+        friend.addFriend(ANOTHER_USER);
+        friend.addTrip(TO_ITALY);
 
-       List<Trip> friendTrips = tripService.getTripsByUser(friend);
+        List<Trip> friendTrips = tripService.getTripsByUser(friend);
 
-       assertThat(friendTrips).isEmpty();
+        assertThat(friendTrips).isEmpty();
     }
 
     @Test
     void return_friend_trips_when_users_are_friends() {
-        loggedUser = REGISTRED_USER;
-
+        
         User friend = new User();
         friend.addFriend(loggedUser);
         friend.addTrip(TO_ITALY);
