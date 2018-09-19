@@ -9,6 +9,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static trip.UserBuilder.aUser;
 
 class TripServiceShould {
 
@@ -39,9 +40,10 @@ class TripServiceShould {
     @Test
     void not_return_any_trips_when_users_are_not_friends() {
 
-        User friend = new User();
-        friend.addFriend(ANOTHER_USER);
-        friend.addTrip(TO_ITALY);
+        User friend = aUser()
+                .friendsWith(ANOTHER_USER)
+                .withTrips(TO_ITALY)
+                .build();
 
         List<Trip> friendTrips = tripService.getTripsByUser(friend);
 
@@ -50,11 +52,11 @@ class TripServiceShould {
 
     @Test
     void return_friend_trips_when_users_are_friends() {
-        
-        User friend = new User();
-        friend.addFriend(loggedUser);
-        friend.addTrip(TO_ITALY);
-        friend.addTrip(TO_LONDON);
+
+        User friend = aUser()
+                .friendsWith(ANOTHER_USER, loggedUser)
+                .withTrips(TO_ITALY, TO_LONDON)
+                .build();
 
         List<Trip> friendTrips = tripService.getTripsByUser(friend);
 
