@@ -1,6 +1,6 @@
 package user;
 
-import org.craftedsw.tripservicekata.trip.Trip;
+import trip.Trip;
 
 import java.util.ArrayList;
 import java.util.List;
