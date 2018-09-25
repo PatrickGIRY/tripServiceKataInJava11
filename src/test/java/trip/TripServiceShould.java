@@ -18,6 +18,7 @@ class TripServiceShould {
     private static final User REGISTERED_USER = new User();
     private static final User ANOTHER_USER = new User();
     private static final Trip TO_ITALY = new Trip();
+    private static final Trip TO_LONDON = new Trip();
     private User loggedUser;
 
     @Test
@@ -44,11 +45,33 @@ class TripServiceShould {
 
     }
 
+    @Test
+    void return_trips_when_users_are_friends() {
+        TripService tripService = new TestableTripService();
+        loggedUser = REGISTERED_USER;
+
+        User friend = new User();
+        friend.addFriend(ANOTHER_USER);
+        friend.addFriend(loggedUser);
+        friend.addTrip(TO_ITALY);
+        friend.addTrip(TO_LONDON);
+
+        List<Trip> trips = tripService.getTripsByUser(friend);
+
+        assertThat(trips).contains(TO_ITALY, TO_LONDON);
+
+    }
+
     private class TestableTripService extends TripService {
 
         @Override
         User getLoggedUser() {
             return loggedUser;
+        }
+
+        @Override
+        List<Trip> findTripsBy(User user) {
+            return user.trips();
         }
     }
 
