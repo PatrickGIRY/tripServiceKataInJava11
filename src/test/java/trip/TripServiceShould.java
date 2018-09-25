@@ -20,10 +20,16 @@ class TripServiceShould {
     private static final Trip TO_ITALY = new Trip();
     private static final Trip TO_LONDON = new Trip();
     private User loggedUser;
+    private TripService tripService;
+
+    @BeforeEach
+    void setUp() {
+        tripService = new TestableTripService();
+        loggedUser = REGISTERED_USER;
+    }
 
     @Test
     void throw_an_exception_when_user_not_logger_in() {
-        TripService tripService = new TestableTripService();
         loggedUser = GUEST;
 
         assertThatThrownBy(() -> tripService.getTripsByUser(UNUSED_USER))
@@ -32,8 +38,6 @@ class TripServiceShould {
 
     @Test
     void not_return_any_trips_when_users_are_not_friends() {
-        TripService tripService = new TestableTripService();
-        loggedUser = REGISTERED_USER;
 
         User friend = new User();
         friend.addFriend(ANOTHER_USER);
@@ -47,8 +51,6 @@ class TripServiceShould {
 
     @Test
     void return_trips_when_users_are_friends() {
-        TripService tripService = new TestableTripService();
-        loggedUser = REGISTERED_USER;
 
         User friend = new User();
         friend.addFriend(ANOTHER_USER);
