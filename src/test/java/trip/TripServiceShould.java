@@ -31,7 +31,7 @@ class TripServiceShould {
     }
 
     @Test
-    void throw_an_exception_when_user_not_logger_in() {
+    void throw_an_exception_when_user_not_logged_in() {
         loggedUser = GUEST;
 
         assertThatThrownBy(() -> tripService.getTripsByUser(UNUSED_USER))
