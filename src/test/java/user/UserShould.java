@@ -16,4 +16,11 @@ class UserShould {
 
         assertThat(user.isFriendWith(PASCAL)).isFalse();
     }
+
+    @Test
+    void inform_when_users_are_fiends() {
+        User user = aUser().friendsWith(MARTIN, PASCAL).build();
+
+        assertThat(user.isFriendWith(PASCAL)).isTrue();
+    }
 }
