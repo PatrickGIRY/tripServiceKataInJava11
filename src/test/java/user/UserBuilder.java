@@ -6,8 +6,8 @@ import java.lang.module.ModuleDescriptor;
 import java.util.stream.Stream;
 
 public class UserBuilder {
-    private User[] friends;
-    private Trip[] trips;
+    private User[] friends = {};
+    private Trip[] trips = {};
 
     public static UserBuilder aUser() {
         return new UserBuilder();
