@@ -5,7 +5,6 @@ import exception.UserNotLoggedInException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import user.User;
-import user.UserBuilder;
 
 import java.util.List;
 
