@@ -21,13 +21,17 @@ public class TripService {
 				}
 			}
 			if (isFriend) {
-				tripList = TripDAO.findTripsByUser(user);
-			}
+                tripList = findTripsBy(user);
+            }
 			return tripList;
 		} else {
 			throw new UserNotLoggedInException();
 		}
 	}
+
+    List<Trip> findTripsBy(User user) {
+        return TripDAO.findTripsByUser(user);
+    }
 
     User getLoggerUser() {
         return UserSession.getInstance().getLoggedUser();
