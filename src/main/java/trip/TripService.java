@@ -6,24 +6,26 @@ import user.UserSession;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Function;
 
 public class TripService {
 
     public List<Trip> getTripsByUser(User user) throws UserNotLoggedInException {
-        User loggedUser = getLoggerUser();
-        if (isLogged(loggedUser)) {
-            if (user.isFriendOf(loggedUser)) {
+        Optional<User> loggedUser = getLoggerUser();
+        return loggedUser
+                .map(tripsOfFriend(user))
+                .orElseThrow(UserNotLoggedInException::new);
+    }
+
+    private Function<User, List<Trip>> tripsOfFriend(User user) {
+        return loggerUser -> {
+            if (user.isFriendOf(loggerUser)) {
                 return findTripsBy(user);
             } else {
                 return noTrip();
             }
-        } else {
-            throw new UserNotLoggedInException();
-        }
-    }
-
-    private boolean isLogged(User loggedUser) {
-        return loggedUser != null;
+        };
     }
 
     private ArrayList<Trip> noTrip() {
@@ -34,8 +36,8 @@ public class TripService {
         return TripDAO.findTripsByUser(user);
     }
 
-    User getLoggerUser() {
-        return UserSession.getInstance().getLoggedUser();
+    Optional<User> getLoggerUser() {
+        return Optional.ofNullable(UserSession.getInstance().getLoggedUser());
     }
 
 }

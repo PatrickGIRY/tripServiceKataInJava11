@@ -7,25 +7,26 @@ import org.junit.jupiter.api.Test;
 import user.User;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class TripServiceShould {
 
-    private static final User GUEST = null;
+    private static final Optional<User> GUEST = Optional.empty();
     private static final User UNUSED_USER = null;
     private static final Trip TO_LONDON = new Trip();
     private static final User REGISTERED_USER = new User();
     private static final Trip TO_ITALY = new Trip();
 
-    private User loggedUser;
+    private Optional<User> loggedUser;
 
     private TripService tripService;
 
     @BeforeEach
     void setUp() {
-        loggedUser = REGISTERED_USER;
+        loggedUser = Optional.of(REGISTERED_USER);
         tripService = new TestableTripService();
     }
 
@@ -49,7 +50,7 @@ class TripServiceShould {
     void return_trips_when_users_are_friends() {
 
         User friend = new User();
-        friend.addFriend(loggedUser);
+        loggedUser.ifPresent(friend::addFriend);
         friend.addTrip(TO_LONDON);
         friend.addTrip(TO_ITALY);
 
@@ -59,7 +60,7 @@ class TripServiceShould {
 
     private class TestableTripService extends TripService {
         @Override
-        User getLoggerUser() {
+        Optional<User> getLoggerUser() {
             return loggedUser;
         }
 
