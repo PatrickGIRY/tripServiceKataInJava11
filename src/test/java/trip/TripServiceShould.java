@@ -2,6 +2,7 @@ package trip;
 
 
 import exception.UserNotLoggedInException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import user.User;
 
@@ -17,10 +18,16 @@ class TripServiceShould {
 
     private User loggedUser;
 
+    private TripService tripService;
+
+    @BeforeEach
+    void setUp() {
+        tripService = new TestableTripService();
+    }
+
     @Test
     void throw_an_exception_when_the_user_is_not_logged_in() {
         loggedUser = GUEST;
-        TripService tripService = new TestableTripService();
         assertThatThrownBy(() -> tripService.getTripsByUser(UNUSED_USER))
                 .isInstanceOf(UserNotLoggedInException.class);
     }
@@ -28,7 +35,6 @@ class TripServiceShould {
     @Test
     void not_return_any_trip_when_users_are_not_friends() {
         loggedUser = REGISTERED_USER;
-        TripService tripService = new TestableTripService();
 
         User friend = new User();
         friend.addTrip(TO_LONDON);
