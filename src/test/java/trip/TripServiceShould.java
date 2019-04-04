@@ -4,6 +4,8 @@ import exception.UserNotLoggedInException;
 import org.junit.jupiter.api.Test;
 import user.User;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -50,6 +52,15 @@ class TripServiceShould {
 
     }
 
+    @Test
+    void return_trip_list_when_user_is_a_friend_of_logged_user(){
+        TripService tripService= new TestableTripService(REGISTRED_USER);
+        User friendUser = new User();
+        friendUser.addFriend(REGISTRED_USER);
+        Trip trip = new Trip();
+        friendUser.addTrip(trip );
+        assertThat(tripService.getTripsByUser(friendUser)).contains(trip);
+    }
 
     class TestableTripService extends TripService {
 
@@ -62,6 +73,11 @@ class TripServiceShould {
         @Override
         User loggedUser() {
             return loggedUser;
+        }
+
+        @Override
+        List<Trip> findTripsBy(User user) {
+            return user.trips();
         }
     }
 }
