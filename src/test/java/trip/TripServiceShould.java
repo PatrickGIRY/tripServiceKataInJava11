@@ -28,7 +28,6 @@ class TripServiceShould {
 
     }
 
-
     @Test
     void return_empty_trip_list_when_user_has_no_friends()
     {
