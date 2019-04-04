@@ -37,6 +37,20 @@ class TripServiceShould {
     }
 
 
+    @Test
+    void return_empty_trip_list_when_user_in_not_a_friend_of_logged_user()
+    {
+        TripService tripService = new TestableTripService(REGISTRED_USER);
+
+        User notMyFriendUser = new User();
+        User friend = new User();
+        notMyFriendUser.addFriend(friend);
+
+        assertThat(tripService.getTripsByUser(notMyFriendUser)).isEmpty();
+
+    }
+
+
     class TestableTripService extends TripService {
 
         private User loggedUser;
