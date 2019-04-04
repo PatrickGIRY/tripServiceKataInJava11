@@ -8,13 +8,18 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class TripServiceShould {
 
+
+    private static final User UNUSED_USER = null;
+    private static final User GUEST = null;
+
+
     @Test
     void throw_exception_if_user_not_logged_in() {
 
         TripService tripService = new TestableTripService();
 
         assertThatThrownBy(() ->
-                tripService.getTripsByUser(null))
+                tripService.getTripsByUser(UNUSED_USER))
                 .isInstanceOf(UserNotLoggedInException.class);
 
     }
@@ -23,7 +28,7 @@ class TripServiceShould {
 
         @Override
         User loggedUser() {
-            return null;
+            return GUEST;
         }
     }
 }
